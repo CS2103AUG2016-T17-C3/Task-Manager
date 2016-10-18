@@ -43,6 +43,10 @@ public class Parser {
     
     private static final Pattern TASK_DATA_ARGS_FOMAT = 
     		Pattern.compile("(?<name>[^/]+)");
+    
+    public static final Pattern DIRECTORY_ARGS_FORMAT = 
+            Pattern.compile("(?<directory>[^<>|]+)");
+    
     public Parser() {}
 
     /**
@@ -87,6 +91,9 @@ public class Parser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
+            
+        case BackupCommand.COMMAND_WORD:
+            return prepareBackup(arguments);
 
         default:
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
@@ -231,5 +238,23 @@ public class Parser {
         final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
         return new FindCommand(keywordSet);
     }
+    
+    /**
+     * Parses arguments in the context of the backup command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareBackup(String args) {
+        final Matcher matcher = DIRECTORY_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BackupCommand.MESSAGE_USAGE));
+        }
+        return new BackupCommand(
+                matcher.group("directory")
+        );
+    }
+    
 
 }
