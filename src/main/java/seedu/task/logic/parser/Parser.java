@@ -2,8 +2,10 @@ package seedu.task.logic.parser;
 
 import seedu.task.logic.commands.*;
 import seedu.task.commons.util.StringUtil;
+import seedu.task.commons.exceptions.DataConversionException;
 import seedu.task.commons.exceptions.IllegalValueException;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,6 +56,8 @@ public class Parser {
      *
      * @param userInput full user input string
      * @return the command based on the user input
+     * @throws DataConversionException 
+     * @throws FileNotFoundException 
      */
     public Command parseCommand(String userInput) {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
@@ -94,6 +98,9 @@ public class Parser {
             
         case BackupCommand.COMMAND_WORD:
             return prepareBackup(arguments);
+            
+        case DirectoryCommand.COMMAND_WORD:
+            return prepareDirectory(arguments);
 
         default:
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
@@ -140,7 +147,7 @@ public class Parser {
         return new HashSet<>(tagStrings);
     }
     
-    
+
     private Command prepareEdit(String args){
     	        final Matcher matcher = EDIT_PERSON_DATA_ARGS_FORMAT.matcher(args.trim());
     	         // Validate arg string format
@@ -162,12 +169,6 @@ public class Parser {
     	             return new IncorrectCommand(ive.getMessage());
     	         }
     	     }
-    
-    
-    
-    
-    
-    
 
     /**
      * Parses arguments in the context of the delete person command.
@@ -256,5 +257,23 @@ public class Parser {
         );
     }
     
+    /**
+     * Parses arguments in the context of the directory command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     * @throws DataConversionException 
+     * @throws FileNotFoundException 
+     */
+    private Command prepareDirectory(String args) {
+        final Matcher matcher = DIRECTORY_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DirectoryCommand.MESSAGE_USAGE));
+        }
+        return new DirectoryCommand(
+                matcher.group("directory")
+        );
+    }
 
 }
