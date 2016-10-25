@@ -393,7 +393,7 @@ public class LogicManagerTest {
             Tag tag1 = new Tag("tag1");
             Tag tag2 = new Tag("tag2");
             UniqueTagList tags = new UniqueTagList(tag1, tag2);
-            return new Task(name, startTime, endTime, location, tags);
+            return new Task(name, startTime, endTime, location, tags, new Status());
         }
 
         /**
@@ -409,7 +409,8 @@ public class LogicManagerTest {
                     new StartTime(seed + "111hrs"),
                     new EndTime(seed + "111hrs"),
                     new Deadline("House of " + seed),
-                    new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1)))
+                    new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))),
+                    new Status()
             );
         }
 
@@ -508,7 +509,8 @@ public class LogicManagerTest {
                     new StartTime("1111hrs"),
                     new EndTime("1234hrs"),
                     new Deadline("House of 1"),
-                    new UniqueTagList(new Tag("tag"))
+                    new UniqueTagList(new Tag("tag")),
+                    new Status()
             );
         }
     }

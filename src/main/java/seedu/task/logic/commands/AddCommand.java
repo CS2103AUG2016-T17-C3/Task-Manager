@@ -1,7 +1,7 @@
 package seedu.task.logic.commands;
 
 import seedu.task.commons.exceptions.IllegalValueException;
-import seedu.task.logic.HistoryList;
+import seedu.task.logic.HistoryManager;
 import seedu.task.logic.RollBackCommand;
 import seedu.task.model.tag.Tag;
 import seedu.task.model.tag.UniqueTagList;
@@ -43,7 +43,8 @@ public class AddCommand extends Command {
                 new StartTime(startTime),
                 new EndTime(endTime),
                 new Deadline(deadline),
-                new UniqueTagList(tagSet)
+                new UniqueTagList(tagSet),
+                new Status()
         );
         //
     }
@@ -55,7 +56,7 @@ public class AddCommand extends Command {
         try {
             model.addTask(toAdd);
             if(isUndo == false){
-                HistoryList.getUndoList().add(new RollBackCommand("add" , this.toAdd, null, 1));
+                history.getUndoList().add(new RollBackCommand("add" , this.toAdd, null));
             }
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {

@@ -2,51 +2,38 @@ package seedu.task.logic;
 
 import java.util.ArrayList;
 
-public class HistoryList {
+public class HistoryManager {
     
-    private static ArrayList<RollBackCommand> undoList;
+    private ArrayList<RollBackCommand> undoList;
     
-    private ArrayList<RollBackCommand> redoList;
+    private ArrayList<String> previousCommandList;
     
-    private static ArrayList<String> previousCommand;
-    
-    private int previousCommandCounter;
-    
-    public HistoryList() {
+    public HistoryManager() {
         undoList = new ArrayList<RollBackCommand>();
-        redoList = new ArrayList<RollBackCommand>();
-        previousCommand = new ArrayList<String>();
-        previousCommandCounter = 0;
+        previousCommandList = new ArrayList<String>();
+        
     }
     
     public void setUndoList(ArrayList<RollBackCommand> undoList){
         this.undoList = undoList;
     }
     
-    public void setRedoList(ArrayList<RollBackCommand> redoList){
-        this.redoList = redoList;
-    }
+    
     public void setPreviousCommand(ArrayList<String> previousCommand){
-        this.previousCommand = previousCommand;
+        this.previousCommandList = previousCommand;
     }
     
-     public void setPreviousCommandCounter(int previousCommandCounter){
-        this.previousCommandCounter = previousCommandCounter;
-    }
+     
     
-     public static ArrayList<RollBackCommand> getUndoList(){
+     public ArrayList<RollBackCommand> getUndoList(){
          return undoList;
      }
      
-     public ArrayList<RollBackCommand> getRedoList(){
-         return redoList;
-     }
-     public static ArrayList<String> getPreviousCommand(){
-         return previousCommand;
+     
+     public ArrayList<String> getPreviousCommandList(){
+         return previousCommandList;
      }
      
-     public int getPreviousCommandCounter(){
-         return previousCommandCounter;
-     }
+   
 
 }

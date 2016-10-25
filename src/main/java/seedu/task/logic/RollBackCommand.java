@@ -9,21 +9,14 @@ public class RollBackCommand {
     private String commandWord;
     private Task newTask;
     private Task oldTask;
-    private int times;
     
     public RollBackCommand(String commandWord, Task newTask, Task oldTask){
         this.commandWord = commandWord;
-        this.times = 1;
         this.newTask = newTask;
         this.oldTask = oldTask;
     }
     
-    public RollBackCommand(String commandWord, Task newTask, Task oldTask, int times){
-        this.commandWord = commandWord;
-        this.times = times;
-        this.newTask = newTask;
-        this.oldTask = oldTask;
-    }
+    
     
     public void setCommandWord(String commandWord){
         this.commandWord = commandWord;
@@ -37,9 +30,6 @@ public class RollBackCommand {
         this.oldTask = oldTask;
     }
     
-    public void setTimes(int times){
-        this.times = times;
-    }
     public String getCommandWord(){
         return commandWord;
     }
@@ -49,9 +39,7 @@ public class RollBackCommand {
     public Task getOldTask(){
         return oldTask;
     }
-    public int getTimes(){
-        return times;
-    }
+    
     
 
 }

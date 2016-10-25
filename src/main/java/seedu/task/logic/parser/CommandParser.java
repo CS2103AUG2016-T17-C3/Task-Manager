@@ -102,6 +102,12 @@ public class CommandParser {
             
         case BackupCommand.COMMAND_WORD:
             return prepareBackup(arguments);
+            
+        case DoneCommand.COMMAND_WORD:
+            return prepareDone(arguments);
+            
+        case UndoneCommand.COMMAND_WORD:
+            return prepareUndone(arguments);
         default:
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
         }
@@ -280,6 +286,7 @@ public class CommandParser {
         }
         // replace first delimiter prefix, then split
         final Collection<String> tagStrings = Arrays.asList(tagArguments.replaceFirst(" #", "").split(" #"));
+
         return new HashSet<>(tagStrings);
     }
     
@@ -412,7 +419,29 @@ public class CommandParser {
 
         return new DeleteCommand(index.get());
     }
+    
+    private Command prepareDone(String args) {
 
+        Optional<Integer> index = parseIndex(args);
+        if(!index.isPresent()){
+            return new IncorrectCommand(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
+
+        return new DoneCommand(index.get());
+    }
+    
+    private Command prepareUndone(String args) {
+
+        Optional<Integer> index = parseIndex(args);
+        if(!index.isPresent()){
+            return new IncorrectCommand(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
+
+        return new UndoneCommand(index.get());
+    }
+    
     /**
      * Parses arguments in the context of the select task command.
      *

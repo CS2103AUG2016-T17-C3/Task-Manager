@@ -35,6 +35,7 @@ public class TaskListPanel extends UiPart {
     @Override
     public void setNode(Node node) {
         panel = (VBox) node;
+        
     }
 
     @Override
@@ -45,6 +46,7 @@ public class TaskListPanel extends UiPart {
     @Override
     public void setPlaceholder(AnchorPane pane) {
         this.placeHolderPane = pane;
+        
     }
 
     public static TaskListPanel load(Stage primaryStage, AnchorPane taskListPlaceholder,

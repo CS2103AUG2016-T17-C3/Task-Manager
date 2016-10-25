@@ -47,15 +47,20 @@ public class TaskCard extends UiPart{
         endTimeLabel.setText(" to " + task.getEndTime().value);
         deadlineLabel.setText(" by " + task.getDeadline().value);
         tags.setText(task.tagsString());
+        
     }
 
     public HBox getLayout() {
+        if(task.getStatus().getDoneStatus() == true) {
+            cardPane.getStyleClass().add("done");
+        }
         return cardPane;
     }
 
     @Override
     public void setNode(Node node) {
         cardPane = (HBox)node;
+        
     }
 
     @Override
