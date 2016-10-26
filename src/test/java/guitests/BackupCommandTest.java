@@ -11,8 +11,8 @@ import static org.junit.Assert.assertTrue;
 
 public class BackupCommandTest extends TaskManagerGuiTest {
 
-    public static final String filepath_A = "data/empty";
-    public static final String filepath_B = "data/notempty";
+    public static final String filepath_A = "empty";
+    public static final String filepath_B = "notempty";
     public static final String filepath_C = "c:/inaccessible";
     public static final String filepath_D = "invalid:/drive";
     public static final String filepath_E = "c:/invalid>character";
