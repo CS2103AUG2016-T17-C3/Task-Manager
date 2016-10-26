@@ -29,6 +29,8 @@ public class BackupCommand extends Command {
     public static final String MESSAGE_BACKUP_SUCCESS = "Backup successful: %1$s";
     
     public static final String MESSAGE_BACKUP_FAILURE = "Backup unsuccessful: %1$s , invalid location";
+    
+    public static final String MESSAGE_BACKUP_ERROR = "Backup unsuccessful: %1$s , data mismatch";
 
 //    private final Task toBackup;
 //    private final Model model;
@@ -92,9 +94,16 @@ public class BackupCommand extends Command {
     @Override
     public CommandResult execute(boolean isUndo) {
         //assert _directory != null;
-        boolean check = new File(_destination).exists();
-        if (!check)
+        if (!FileUtil.isFileExists(new File(_destination)))
             return new CommandResult(String.format(MESSAGE_BACKUP_FAILURE, _destination));
+        try {
+            String destinationFileData = FileUtil.readFromFile(new File(_destination));
+            String sourceFileData = FileUtil.readFromFile(new File(_source));
+            if (!destinationFileData.equals(sourceFileData))
+                return new CommandResult(String.format(MESSAGE_BACKUP_ERROR, _destination));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return new CommandResult(String.format(MESSAGE_BACKUP_SUCCESS, _destination));
     }
 
