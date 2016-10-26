@@ -1,5 +1,5 @@
 # Task Manager 
-`CS2103AUG2016-T17-C3` `master branch` [![Build Status](https://travis-ci.org/CS2103AUG2016-T17-C3/main.svg?branch=master)](https://travis-ci.org/CS2103AUG2016-T17-C3/main)
+<kbd>CS2103AUG2016-T17-C3</kbd> <kbd>master branch</kbd> [![Build Status](https://travis-ci.org/CS2103AUG2016-T17-C3/main.svg?branch=master)](https://travis-ci.org/CS2103AUG2016-T17-C3/main)
 
 <img src="docs/images/1945556540.jpg" width="600"><br>
 
