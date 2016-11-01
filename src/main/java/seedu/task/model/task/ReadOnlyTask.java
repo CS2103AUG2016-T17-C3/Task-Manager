@@ -9,7 +9,7 @@ import seedu.task.model.tag.UniqueTagList;
  */
 public interface ReadOnlyTask {
 
-    Name getName();
+	Name getName();
     StartTime getStartTime();
     EndTime getEndTime();
     Deadline getDeadline();

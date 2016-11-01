@@ -67,27 +67,7 @@ public class TaskCard extends UiPart{
         tags.setText(task.tagsString());
     }
 
-    //@@author A0147335E 
-    public HBox getLayout() {
-        if (task.getStatus().getNewlyAddedStatus() == true) {
-
-            cardPane.setStyle("-fx-background-color: #FFFE00");
-            PauseTransition delay = new PauseTransition(Duration.seconds(1));
-            delay.setOnFinished(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    cardPane.setStyle("-fx-background-color: #FFFFFF");
-                    task.getStatus().setNewlyAdded(false);
-                }
-            });
-            delay.play();
-
-        }
-        if (task.getStatus().getDoneStatus() == true) {
-            cardPane.setStyle("-fx-background-color: #ADDBAC");
-        }
-        return cardPane;
-    }
+    
 
     //@@author A0147335E 
     public static boolean isAdded() {

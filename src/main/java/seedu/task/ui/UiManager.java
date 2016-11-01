@@ -111,10 +111,10 @@ public class UiManager extends ComponentManager implements Ui {
         mainWindow.handleHelp();
     }
 
+  //@@author A0133369B
     @Subscribe
     private void handleJumpToListRequestEvent(JumpToListRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        mainWindow.getTaskListPanel().scrollTo(event.targetIndex);
     }
 
     @Subscribe

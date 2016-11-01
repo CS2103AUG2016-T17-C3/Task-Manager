@@ -28,15 +28,14 @@ public class ResultDisplay extends UiPart {
         statusBar.configure();
         return statusBar;
     }
-
+    //@@author A0133369B
     public void configure() {
         resultDisplayArea = new TextArea();
         resultDisplayArea.setEditable(false);
         resultDisplayArea.setId(RESULT_DISPLAY_ID);
         resultDisplayArea.getStyleClass().removeAll();
         resultDisplayArea.getStyleClass().add(STATUS_BAR_STYLE_SHEET);
-        resultDisplayArea.setStyle("-fx-font: 20 helvetica;");
-        resultDisplayArea.setText("");
+        resultDisplayArea.setStyle("-fx-font: 18 helvetica;");
         resultDisplayArea.textProperty().bind(displayed);
         FxViewUtil.applyAnchorBoundaryParameters(resultDisplayArea, 0.0, 0.0, 0.0, 0.0);
         mainPane.getChildren().add(resultDisplayArea);
