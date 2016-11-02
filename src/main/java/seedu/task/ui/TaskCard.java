@@ -1,5 +1,7 @@
 package seedu.task.ui;
 
+import java.util.logging.Logger;
+
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,11 +10,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import seedu.task.commons.core.LogsCenter;
 import seedu.task.model.task.ReadOnlyTask;
 
 //@@author A0147335E-reused
 public class TaskCard extends UiPart{
-
+    private final Logger logger = LogsCenter.getLogger(TaskCard.class);
     private static final String FXML = "TaskListCard.fxml";
 
     @FXML
@@ -49,17 +52,17 @@ public class TaskCard extends UiPart{
     public void initialize() {
         name.setText(task.getName().fullName);
         id.setText(displayedIndex + ". ");
-        if(!task.getDeadline().value.equals("now") && !task.getDeadline().value.equals(" from now")){
+        if (!task.getStartTime().toString().isEmpty()) {
             startTimeLabel.setText(" from " + task.getStartTime().value);
         }else{
             startTimeLabel.setText("");
         }
-        if(!task.getEndTime().value.equals("no endtime") && !task.getEndTime().value.equals(" to no endtime")){
+        if(!task.getEndTime().toString().isEmpty()){
             endTimeLabel.setText(" to " + task.getEndTime().value);
         }else{
             endTimeLabel.setText("");
         }
-        if(!task.getDeadline().value.equals("no deadline") && !task.getDeadline().value.equals(" to no deadline")){
+        if(!task.getDeadline().toString().isEmpty()){
             deadlineLabel.setText(" ends " + task.getDeadline().value);
         }else{
             deadlineLabel.setText("");
@@ -69,6 +72,7 @@ public class TaskCard extends UiPart{
 
     //@@author A0147335E 
     public HBox getLayout() {
+        /*
         if (task.getStatus().getNewlyAddedStatus() == true) {
 
             cardPane.setStyle("-fx-background-color: #FFFE00");
@@ -83,17 +87,24 @@ public class TaskCard extends UiPart{
             delay.play();
 
         }
-        if (task.getStatus().getDoneStatus() == true) {
+        */
+        if (task.getStatus().getOverdueStatus()) {
+            cardPane.setStyle("-fx-background-color: #FF0000");   
+        }
+        if (task.getStatus().getDoneStatus() && task.getStatus().getFavoriteStatus()) {
+            cardPane.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #ADDBAC, #FFFE00)");   
+        }
+        else if (task.getStatus().getDoneStatus()) {
+            
             cardPane.setStyle("-fx-background-color: #ADDBAC");
+        }
+        else if (task.getStatus().getFavoriteStatus()) {
+            cardPane.setStyle("-fx-background-color: #FFFE00");
         }
         return cardPane;
     }
 
-    //@@author A0147335E 
-    public static boolean isAdded() {
-        return task.getStatus().getNewlyAddedStatus();
-    }
-
+    
     @Override
     public void setNode(Node node) {
         cardPane = (HBox)node;

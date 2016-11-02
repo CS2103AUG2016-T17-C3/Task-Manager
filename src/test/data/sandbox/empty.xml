@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <taskmanager>
     <tasks>
-        <name>DO</name>
-        <startTime>now</startTime>
-        <endTime>no endtime</endTime>
-        <deadline>no deadline</deadline>
-        <doneStatus>true</doneStatus>
+        <name>kk</name>
+        <startTime>2016-11-02 14:00</startTime>
+        <endTime></endTime>
+        <deadline>2016-11-01 21:55</deadline>
+        <doneStatus>false</doneStatus>
         <overdueStatus>false</overdueStatus>
-        <newlyAdded>false</newlyAdded>
+        <favoriteStatus>false</favoriteStatus>
+        <tagged>school</tagged>
     </tasks>
     <tasks>
-        <name>do nothing</name>
-        <startTime>now</startTime>
-        <endTime>no endtime</endTime>
-        <deadline>no deadline</deadline>
-        <doneStatus>true</doneStatus>
+        <name>dos</name>
+        <startTime>2016-11-01 15:00</startTime>
+        <endTime></endTime>
+        <deadline>2016-11-01 21:30</deadline>
+        <doneStatus>false</doneStatus>
         <overdueStatus>false</overdueStatus>
-        <newlyAdded>false</newlyAdded>
+        <favoriteStatus>false</favoriteStatus>
     </tasks>
+    <tasks>
+        <name>doo</name>
+        <startTime>2016-11-01 15:00</startTime>
+        <endTime></endTime>
+        <deadline>2016-11-01 21:57</deadline>
+        <doneStatus>false</doneStatus>
+        <overdueStatus>false</overdueStatus>
+        <favoriteStatus>false</favoriteStatus>
+    </tasks>
+    <tasks>
+        <name>do sth</name>
+        <startTime>2016-11-02 22:00</startTime>
+        <endTime></endTime>
+        <deadline></deadline>
+        <doneStatus>false</doneStatus>
+        <overdueStatus>false</overdueStatus>
+        <favoriteStatus>false</favoriteStatus>
+    </tasks>
+    <tags>
+        <tagName>school</tagName>
+    </tags>
 </taskmanager>

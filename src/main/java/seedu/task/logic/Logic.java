@@ -23,6 +23,9 @@ public interface Logic {
 
     /** Returns the undo list of commands */
     ArrayList<RollBackCommand> getUndoList();
+    
+    /** Returns the redo list of commands */
+    ArrayList<RollBackCommand> getRedoList();
 
     /** Returns the list of previous commands */
     ArrayList<String> getPreviousCommandList();

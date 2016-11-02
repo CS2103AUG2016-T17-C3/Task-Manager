@@ -12,11 +12,15 @@ import java.util.ArrayList;
 public class HistoryManager {
 
     private ArrayList<RollBackCommand> undoList;
+    
+    private ArrayList<RollBackCommand> redoList;
 
     private ArrayList<String> previousCommandList;
 
     public HistoryManager() {
         undoList = new ArrayList<RollBackCommand>();
+        redoList = new ArrayList<RollBackCommand>();
+
         previousCommandList = new ArrayList<String>();
     }
 
@@ -24,6 +28,9 @@ public class HistoryManager {
         this.undoList = undoList;
     }
 
+    public void setRedoList(ArrayList<RollBackCommand> redoList) {
+        this.redoList = redoList;
+    }
 
     public void setPreviousCommand(ArrayList<String> previousCommand) {
         this.previousCommandList = previousCommand;
@@ -33,6 +40,9 @@ public class HistoryManager {
         return undoList;
     }
 
+    public ArrayList<RollBackCommand> getRedoList() {
+        return redoList;
+    }
 
     public ArrayList<String> getPreviousCommandList() {
         return previousCommandList;

@@ -66,6 +66,11 @@ public class LogicManager extends ComponentManager implements Logic {
     public ArrayList<RollBackCommand> getUndoList() {
         return historyManager.getUndoList();
     }
+    
+    @Override
+    public ArrayList<RollBackCommand> getRedoList() {
+        return historyManager.getRedoList();
+    }
 
     @Override
     public ArrayList<String> getPreviousCommandList() {
