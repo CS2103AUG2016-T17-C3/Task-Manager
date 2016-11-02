@@ -151,8 +151,9 @@ public class MainWindow extends UiPart {
     }
 
     private void setWindowMinSize() {
-        primaryStage.setMinHeight(MIN_HEIGHT);
-        primaryStage.setMinWidth(MIN_WIDTH);
+        //primaryStage.setMinHeight(MIN_HEIGHT);
+        //primaryStage.setMinWidth(MIN_WIDTH);
+        primaryStage.setMaximized(true);
     }
 
     /**

@@ -3,12 +3,15 @@ package guitests.guihandles;
 import guitests.GuiRobot;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import seedu.task.TestApp;
 import seedu.task.commons.core.LogsCenter;
+import seedu.task.model.task.ReadOnlyTask;
 
 import java.util.logging.Logger;
 

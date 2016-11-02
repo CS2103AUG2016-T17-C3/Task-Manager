@@ -10,11 +10,11 @@ import seedu.task.model.task.ReadOnlyTask;
  * Provides a handle to a person card in the person list panel.
  */
 public class TaskCardHandle extends GuiHandle {
-    private static final String COLOR_FIELD_ID = "#id";
-    private static final String NAME_FIELD_ID = "#name";
-    private static final String DEADLINE_FIELD_ID = "#deadlineLabel";
-    private static final String STARTTIME_FIELD_ID = "#startTimeLabel";
-    private static final String ENDTIME_FIELD_ID = "#endTimeLabel";
+    private static final String COLOR_FIELD_ID = "#idColumn";
+    private static final String NAME_FIELD_ID = "#taskNameColumn";
+    private static final String DEADLINE_FIELD_ID = "#dueTimeColumn";
+    private static final String STARTTIME_FIELD_ID = "#startTimeColumn";
+    private static final String ENDTIME_FIELD_ID = "#endTimeColumn";
    
 
     private Node node;
@@ -45,20 +45,20 @@ public class TaskCardHandle extends GuiHandle {
     }
     
     public boolean getDoneStatus() {
-        if(getColorFromLabel(COLOR_FIELD_ID, node).equals("-fx-background-color: #ADDBAC")) {
+        //if(getColorFromLabel(COLOR_FIELD_ID, node).equals("-fx-background-color: #ADDBAC")) {
            
-            return true;
-        }
+            //return true;
+        //}
                 
-        else {
+        //else {
             return false;
-        }
+        //}
     }
 
     public boolean isSameTask(ReadOnlyTask task){
         return getTaskName().equals(task.getName().fullName) && getStartTime().equals(task.getStartTime().value)
-                && getEndTime().equals(task.getEndTime().value) && getDeadline().equals(task.getDeadline().value)
-                && getDoneStatus() == task.getStatus().getDoneStatus();
+                && getEndTime().equals(task.getEndTime().value) && getDeadline().equals(task.getDeadline().value);
+                
     }
 
     @Override
