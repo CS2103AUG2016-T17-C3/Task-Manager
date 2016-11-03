@@ -40,7 +40,7 @@ public class CommandParser {
             Pattern.compile("(?<name>[^,#]+)" + ", from (?<startTime>[^@#]+)" + " to (?<endTime>[^@#]+)" + "(?<tagArguments>(?: #[^/]+)*)");
 
     private static final Pattern NATURAL_ARGS_FORMAT_WITH_START_AND_DEADLINE =
-            Pattern.compile("(?<name>[^,#]+)" + ", (at|on) (?<startTime>[^@#]+)" + " by (?<deadline>[^@#]+)" + "(?<tagArguments>(?: #[^/]+)*)");
+            Pattern.compile("(?<name>[^,#]+)" + ", (at|on) (?<startTime>[^@#]+)" + " (by|to) (?<deadline>[^@#]+)" + "(?<tagArguments>(?: #[^/]+)*)");
 
     private static final Pattern NATURAL_ARGS_FORMAT_WITH_START_AND_END_TIME_AND_DEADLINE =
             Pattern.compile("(?<name>[^,#]+)" + ", from (?<startTime>[^@#]+)" + "to (?<endTime>[^@#]+)" + "by (?<deadline>[^@#]+)" + "(?<tagArguments>(?: #[^/]+)*)");
@@ -54,9 +54,9 @@ public class CommandParser {
             Pattern.compile("(?<directory>[^<>|]+)");
     //@@author
     public static final String EDIT_NAME = "name";
-    public static final String EDIT_START_TIME = "start time";
-    public static final String EDIT_END_TIME = "end time";
-    public static final String EDIT_DEADLINE = "deadline";
+    public static final String EDIT_START_TIME = "start";
+    public static final String EDIT_END_TIME = "end";
+    public static final String EDIT_DEADLINE = "due";
     public static final String EDIT_TAG = "tag";
 
     public CommandParser() {}
@@ -131,6 +131,12 @@ public class CommandParser {
 
         case UnfavoriteCommand.COMMAND_WORD:
             return prepareUnfavorite(arguments);
+            
+        case RefreshCommand.COMMAND_WORD:
+            return new RefreshCommand();
+            
+        
+            
         default:
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
         }
@@ -158,8 +164,8 @@ public class CommandParser {
 
         else if(matcherNatural.matches()){
             try{
-                return createCommandStart(matcherNatural.group("name"),
-                        "now",
+                return createCommand(matcherNatural.group("name"),
+                        EMPTY_STRING,
                         EMPTY_STRING,
                         EMPTY_STRING,
                         getTagsFromArgs(matcherNatural.group("tagArguments"))
@@ -185,9 +191,9 @@ public class CommandParser {
         }
         else if(matcherDeadline.matches()){
             try{
-                return createCommandStartDeadline(
+                return createCommandDeadline(
                         matcherDeadline.group("name"),
-                        "now",
+                        EMPTY_STRING,
                         EMPTY_STRING,
                         matcherDeadline.group("deadline"),
                         getTagsFromArgs(matcherDeadline.group("tagArguments"))
@@ -245,6 +251,16 @@ public class CommandParser {
     }
 
     //@@ author A0152958R
+    private Command createCommand(String name, String startTime, String endTime, String deadline, Set<String> tags){
+        
+        try{
+            return new AddCommand(name, startTime, endTime, deadline, tags);
+        }catch(IllegalValueException i){
+            return new IncorrectCommand(i.getMessage());
+        }
+
+    }
+    
     private Command createCommandStart(String name, String startTime, String endTime, String deadline, Set<String> tags){
         TimeParser parserTime = new TimeParser();
         TimeParserResult time = parserTime.parseTime(startTime);
@@ -332,7 +348,27 @@ public class CommandParser {
             return new IncorrectCommand(i.getMessage());
         }
     }
-
+    
+    private Command createCommandDeadline(String name, String startTime, String endTime, String deadline, Set<String> tags){
+                TimeParser parserTime = new TimeParser();
+                TimeParserResult time = parserTime.parseTime(deadline);
+                StringBuilder deadlineString = new StringBuilder();
+                if(time.getRawDateTimeStatus() == DateTimeStatus.START_DATE_START_TIME){
+                   deadlineString.append(time.getFirstDate().toString());
+                   deadlineString.append(" ");
+                   deadlineString.append(time.getFirstTime().toString().substring(0, 5));
+               }
+                if(deadlineString.length() == 0){
+                    return new IncorrectCommand("Incorrect time format");
+                }
+                try{
+                    return new AddCommand(name, startTime, endTime, deadlineString.toString(), tags);
+                }catch(IllegalValueException i){
+                   return new IncorrectCommand(i.getMessage());
+               }
+                
+            }
+    
     private Command createCommandStartEndDeadline(String name, String startTime, String endTime, String deadline, Set<String> tags){
         TimeParser parserTime = new TimeParser();
         TimeParser parserDeadline = new TimeParser();
@@ -430,7 +466,7 @@ public class CommandParser {
             }
         case EDIT_TAG:
             try{
-                return new EditCommand(index, item, item, getTagsFromArgs(content));
+                return new EditCommand(index, item, item, getTagsFromArgs(" " + content));
             }catch(IllegalValueException ive){
                 return new IncorrectCommand(ive.getMessage());
             }
@@ -610,4 +646,6 @@ public class CommandParser {
 
         return new UnfavoriteCommand(index.get());
     }
+    
+  
 }

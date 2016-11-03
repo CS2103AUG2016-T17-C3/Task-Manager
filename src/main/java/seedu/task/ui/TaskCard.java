@@ -53,17 +53,17 @@ public class TaskCard extends UiPart{
         name.setText(task.getName().fullName);
         id.setText(displayedIndex + ". ");
         if (!task.getStartTime().toString().isEmpty()) {
-            startTimeLabel.setText(" from " + task.getStartTime().value);
+            startTimeLabel.setText(" Starts: " + task.getStartTime().value);
         }else{
             startTimeLabel.setText("");
         }
         if(!task.getEndTime().toString().isEmpty()){
-            endTimeLabel.setText(" to " + task.getEndTime().value);
+            endTimeLabel.setText(" Ends: " + task.getEndTime().value);
         }else{
             endTimeLabel.setText("");
         }
         if(!task.getDeadline().toString().isEmpty()){
-            deadlineLabel.setText(" ends " + task.getDeadline().value);
+            deadlineLabel.setText(" Due: " + task.getDeadline().value);
         }else{
             deadlineLabel.setText("");
         }
@@ -88,19 +88,24 @@ public class TaskCard extends UiPart{
 
         }
         */
-        if (task.getStatus().getOverdueStatus()) {
-            cardPane.setStyle("-fx-background-color: #FF0000");   
-        }
+        
         if (task.getStatus().getDoneStatus() && task.getStatus().getFavoriteStatus()) {
             cardPane.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #ADDBAC, #FFFE00)");   
         }
         else if (task.getStatus().getDoneStatus()) {
-            
             cardPane.setStyle("-fx-background-color: #ADDBAC");
+        }
+        else if (task.getStatus().getFavoriteStatus() && task.getStatus().getOverdueStatus()) {
+            cardPane.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #FF0000, #FFFE00)");
+            
+        }
+        else if (task.getStatus().getOverdueStatus()) {
+            cardPane.setStyle("-fx-background-color: #FF0000");
         }
         else if (task.getStatus().getFavoriteStatus()) {
             cardPane.setStyle("-fx-background-color: #FFFE00");
         }
+        
         return cardPane;
     }
 

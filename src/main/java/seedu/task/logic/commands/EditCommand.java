@@ -38,7 +38,7 @@ public class EditCommand extends Command {
     public static final String EDIT_NAME = "name";
     public static final String EDIT_START_TIME = "start";
     public static final String EDIT_END_TIME = "end";
-    public static final String EDIT_DEADLINE = "deadline";
+    public static final String EDIT_DEADLINE = "due";
     public static final String EDIT_TAG = "tag";
     public final int targetIndex;
     //private final Task toEdit;
@@ -133,8 +133,8 @@ public class EditCommand extends Command {
         }
         
         try {
-            model.addTask(targetIndex - 1, toAdd);
-            editedTask = lastShownList.get(targetIndex - 1);
+            model.addTask(targetIndex, toAdd);
+            editedTask = lastShownList.get(targetIndex);
         }  catch (UniqueTaskList.DuplicateTaskException e) {
             try {
                 model.deleteTask(editedTask);

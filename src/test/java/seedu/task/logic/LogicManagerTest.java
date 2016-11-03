@@ -413,9 +413,9 @@ public class LogicManagerTest {
         Task generateTask(int seed) throws Exception {
             return new Task(
                     new Name("Task " + seed),
-                    new StartTime("11." + seed + "1am"),
-                    new EndTime("11." + seed + "1pm"),
-                    new Deadline("12." + seed + "2am"),
+                    new StartTime("2016-11-26 11:" + seed + "1"),
+                    new EndTime("2016-11-26 11:" + seed + "1"),
+                    new Deadline("2016-11-26 12:" + seed + "2"),
                     new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))),
                     new Status()
             );
@@ -515,9 +515,9 @@ public class LogicManagerTest {
         Task generateTaskWithName(String name) throws Exception {
             return new Task(
                     new Name(name),
-                    new StartTime("11.11am"),
-                    new EndTime("12.34pm"),
-                    new Deadline("12.40pm"),
+                    new StartTime("2016-11-26 11:11"),
+                    new EndTime("2016-11-26 12:44"),
+                    new Deadline("2016-11-26 12:40"),
                     new UniqueTagList(new Tag("tag")),
                     new Status()
             );

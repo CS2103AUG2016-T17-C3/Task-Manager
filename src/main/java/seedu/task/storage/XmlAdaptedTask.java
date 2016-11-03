@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * JAXB-friendly version of the Task.
  */
 public class XmlAdaptedTask {
-    private final Logger logger = LogsCenter.getLogger(XmlAdaptedTask.class);
+    
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
@@ -32,8 +32,7 @@ public class XmlAdaptedTask {
     private String deadline;
     @XmlElement(required = true)
     private boolean doneStatus;
-    @XmlElement(required = true)
-    private boolean overdueStatus;
+    
     @XmlElement(required = true)
     private boolean favoriteStatus;
     
@@ -83,7 +82,7 @@ public class XmlAdaptedTask {
         final EndTime endTime = new EndTime(this.endTime);
         final Deadline deadline = new Deadline(this.deadline);
         final UniqueTagList tags = new UniqueTagList(taskTags);
-        
+        boolean isDue = false;
         if (!this.deadline.isEmpty()) {
             String strDatewithTime = this.deadline.replace(" ", "T");
             LocalDateTime aLDT = LocalDateTime.parse(strDatewithTime);
@@ -91,22 +90,16 @@ public class XmlAdaptedTask {
             Date currentDate=new Date();
             LocalDateTime localDateTime = LocalDateTime.ofInstant(currentDate.toInstant(), ZoneId.systemDefault());
             
-            logger.info("NOW IS " + localDateTime + "AND " + aLDT);
-            
-            
             if (aLDT.isBefore(localDateTime)) {
-                this.overdueStatus = true;
-            }
-            else {
-                this.overdueStatus = false;
+                //this.overdueStatus = true;
+                isDue = true;
             }
             
+            
             }
-            else {
-                this.overdueStatus = false;
-            }
-        
-        final Status status = new Status(this.doneStatus, this.overdueStatus, this.favoriteStatus);
+            
+            
+        final Status status = new Status(this.doneStatus, isDue, this.favoriteStatus);
         return new Task(name, startTime, endTime, deadline, tags, status);
     }
 }

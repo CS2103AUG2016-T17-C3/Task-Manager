@@ -80,16 +80,27 @@ public class UndoCommand extends Command {
                 prepareUndoClear(previousCommandDetails);
                 break;
 
-            case UndoneCommand.COMMAND_WORD:
-                prepareUndoUndone(previousCommandDetails);
-                break;
-
             case DoneCommand.COMMAND_WORD:
                 prepareUndoDone(previousCommandDetails);
                 break;
+                
+            case UndoneCommand.COMMAND_WORD:
+                prepareUndoUndone(previousCommandDetails);
+                break;
+                
+            case FavoriteCommand.COMMAND_WORD:
+                prepareUndoFavorite(previousCommandDetails);
+                break;
+                
+            case UnfavoriteCommand.COMMAND_WORD:
+                prepareUndoUnfavorite(previousCommandDetails);
+                break;
 
+            case RefreshCommand.COMMAND_WORD:
+                prepareUndoRefreshCommand();
+                break;
             default:
-
+                break;
             }
 
             checkCommandListSize();
@@ -100,9 +111,19 @@ public class UndoCommand extends Command {
             }
         }
         }
-        return new CommandResult(outputUndoList + "Redo: " + history.getRedoList().size() );
+        return new CommandResult(outputUndoList);
     }
 
+    private void prepareUndoRefreshCommand() {
+        
+
+        Command command = new RefreshCommand();     
+        command.setData(model);
+        command.execute(true);
+
+        history.getUndoList().remove(history.getUndoList().size() - 1);
+    }
+    
     private void prepareUndoDone(String[] previousCommandDetails) {
         int index = Integer.parseInt(previousCommandDetails[1]);
 
@@ -123,6 +144,26 @@ public class UndoCommand extends Command {
         history.getUndoList().remove(history.getUndoList().size() - 1);
     }
 
+    private void prepareUndoFavorite(String[] previousCommandDetails) {
+        int index = Integer.parseInt(previousCommandDetails[1]);
+
+        Command command = new UnfavoriteCommand(index);     
+        command.setData(model);
+        command.execute(true);
+
+        history.getUndoList().remove(history.getUndoList().size() - 1);
+    }
+
+    private void prepareUndoUnfavorite(String[] previousCommandDetails) {
+        int index = Integer.parseInt(previousCommandDetails[1]);
+
+        Command command = new FavoriteCommand(index);     
+        command.setData(model);
+        command.execute(true);
+
+        history.getUndoList().remove(history.getUndoList().size() - 1);
+    }
+    
     private void prepareUndoClear(String[] previousCommandDetails) {
 
         int size = history.getUndoList().size() - 1; 
