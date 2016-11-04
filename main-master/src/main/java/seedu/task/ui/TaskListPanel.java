@@ -109,7 +109,7 @@ public class TaskListPanel extends UiPart {
     //table initialization
     private void initialize(){
     	    	
-    	idColumn.setCellValueFactory(column -> new ReadOnlyObjectWrapper<Number>(taskTable.getItems().indexOf(column.getValue())));
+    	idColumn.setCellValueFactory(column -> new ReadOnlyObjectWrapper<Number>(taskTable.getItems().indexOf(column.getValue())+1));
 
     	taskNameColumn.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getName()));
     	
