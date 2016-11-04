@@ -74,7 +74,7 @@ public class TaskListPanel extends UiPart {
     @FXML
     private TableColumn<ReadOnlyTask, String> tagColumn;
     @FXML
-    private TableColumn<ReadOnlyTask, Status> statusColumn;
+    private TableColumn<ReadOnlyTask, Number> statusColumn;
 
     public TaskListPanel() {
         super();
@@ -109,9 +109,8 @@ public class TaskListPanel extends UiPart {
     //table initialization
     private void initialize(){
     	    	
-    	idColumn.setCellValueFactory(column -> new ReadOnlyObjectWrapper<Number>(taskTable.getItems().indexOf(column.getValue()) + 1));
-  	  	
-    	
+    	idColumn.setCellValueFactory(column -> new ReadOnlyObjectWrapper<Number>(taskTable.getItems().indexOf(column.getValue())));
+
     	taskNameColumn.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getName()));
     	
     	
@@ -209,40 +208,7 @@ public class TaskListPanel extends UiPart {
     	
     		
     }
-    
-//    private void setStatus(){
-//    	statusColumn.setCellFactory(column -> {
-//    	    return new TableCell<ReadOnlyTask, Status>() {
-//    	    	@Override
-//    	    	protected void updateItem(Status item, boolean empty) {
-//    	            super.updateItem(item, empty);
-//    	            
-//    	            Task task = (Task) getTableRow().getItem();
-//
-//    	            if(task.getStatus().getDoneStatus()==true) {
-//    	            	setText("1");
-//        	    		setStyle("-fx-background-color: yello");
-//        	    		System.out.print("0");
-//        	    	} else if (task.getStatus().getNewlyAddedStatus()==true){
-//    	                //setText(item.toString());
-//    	                setStyle("-fx-background-color: yello");
-//    	                System.out.print("1");
-//    	            } else if (task.getStatus().getOverdueStatus()==true){
-//    	            	setStyle("-fx-background-color: red");
-//    	            	System.out.print("2");
-//    	            } else{
-//    	            	setStyle("-fx-background-color: white");
-//    	            	System.out.print(taskTable.getItems().get(0).getStatus().getNewlyAddedStatus());
-//    	            	System.out.print("3");
-//    	            }
-//    	        }
-//    	    	
-//    	    }; 	    
-//    	});
-//    }
-//    
-//    
-    
+
     
    // prenvent columns reordering
     private void disableTableColumnReordering() {
@@ -318,8 +284,7 @@ public class TaskListPanel extends UiPart {
                 ObservableList selectedCells = selectionModel.getSelectedCells();
                 TablePosition tablePosition = (TablePosition) selectedCells.get(0);
                 Object val = tablePosition.getTableColumn().getCellData(newValue);
-                System.out.println("Selected Value" + val);
-
+               
             }
         });
         
