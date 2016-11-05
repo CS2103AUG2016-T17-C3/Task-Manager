@@ -1,3 +1,4 @@
+// @@author A0147335E
 package seedu.task.logic.commands;
 
 import seedu.task.commons.core.Messages;
@@ -8,7 +9,7 @@ import seedu.task.model.task.Task;
 import seedu.task.model.task.UniqueTaskList;
 import seedu.task.model.task.UniqueTaskList.TaskNotFoundException;
 
-// @@author A0147335E
+
 /**
  * Done a task from the task manager.
  */
@@ -51,14 +52,14 @@ public class DoneCommand extends Command {
             assert false : "The target task cannot be missing";
         }
 
-        Task newTask = new Task(currentTask);
-        newTask.getStatus().setDoneStatus(true);
+        Task taskToDone = new Task(currentTask);
+        taskToDone.getStatus().setDoneStatus(true);
 
         try {
-            model.addTask(targetIndex - 1, newTask);
+            model.addTask(targetIndex - 1, taskToDone);
         } catch (UniqueTaskList.DuplicateTaskException e) {}
 
-        if (oldStatus == newTask.getStatus().getDoneStatus()) {
+        if (oldStatus == taskToDone.getStatus().getDoneStatus()) {
             return new CommandResult(MESSAGE_ALREADY_DONE);
         } else {
             // @author A0147944U
@@ -68,13 +69,13 @@ public class DoneCommand extends Command {
         // @@author A0147335E
 
         if (isUndo == false) {
-            history.getUndoList().add(new RollBackCommand(COMMAND_WORD, newTask, null));
+            history.getUndoList().add(new RollBackCommand(COMMAND_WORD, taskToDone, null));
         }
         // @author A0147944U-reused
         // Sorts updated list of tasks
         model.autoSortBasedOnCurrentSortPreference();
-        // @@author A0147335E
-        return new CommandResult(String.format(MESSAGE_DONE_TASK_SUCCESS, newTask.getName()));
+        // @author
+        return new CommandResult(String.format(MESSAGE_DONE_TASK_SUCCESS, taskToDone.getName()));
     }
 
     @Override
