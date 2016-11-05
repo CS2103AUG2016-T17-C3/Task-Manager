@@ -1,3 +1,4 @@
+// @@author A0147335E
 package seedu.task.logic.commands;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import seedu.task.model.tag.Tag;
 import seedu.task.model.task.ReadOnlyTask;
 import seedu.task.model.task.Task;
 
-// @@author A0147335E
+
 /**
  * Refresh the task manager.
  */
@@ -19,39 +20,39 @@ public class RefreshCommand extends Command {
 
     public static final String COMMAND_WORD = "refresh";
     public static final String MESSAGE_SUCCESS = "Task manager has been refreshed!";
+    public static final String EMPTY_STRING = "";
 
     public RefreshCommand() {}
 
     @Override
     public CommandResult execute(boolean isUndo) {
         assert model != null;
-        
+
         ArrayList<RollBackCommand> taskList = new ArrayList<RollBackCommand>();
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
         for(int i = 0; i < lastShownList.size(); i++) {
             ReadOnlyTask taskToDelete = lastShownList.get(i);
-            
-                Task task = new Task(taskToDelete.getName(), taskToDelete.getStartTime(), taskToDelete.getEndTime(), taskToDelete.getDeadline(), taskToDelete.getTags(), taskToDelete.getStatus(), taskToDelete.getRecurring());
-                taskList.add(new RollBackCommand(COMMAND_WORD , task, null));
-            
+            taskList.add(new RollBackCommand(COMMAND_WORD , (Task) taskToDelete, null));
+
         }
         model.resetData(TaskManager.getEmptyTaskManager());
-        
-        int size = taskList.size() - 1; 
+
+        int index = taskList.size() - 1; 
 
         while (!taskList.isEmpty()) {
-            HashSet<Tag> tagSet = new HashSet<>(taskList.get(size).getNewTask().getTags().toSet());
+            HashSet<Tag> tagSet = new HashSet<>(taskList.get(index).getNewTask().getTags().toSet());
             HashSet<String> tagStringSet = new HashSet<>(tagSet.size());
             for (Tag tags: tagSet) {
                 tagStringSet.add(tags.tagName);
             }
 
             try {
+                
                 Command command = new AddCommand(
-                        "" + taskList.get(size).getNewTask().getName(),
-                        "" + taskList.get(size).getNewTask().getStartTime(),
-                        "" + taskList.get(size).getNewTask().getEndTime(),
-                        "" + taskList.get(size).getNewTask().getDeadline(),
+                        EMPTY_STRING + taskList.get(index).getNewTask().getName(),
+                        EMPTY_STRING + taskList.get(index).getNewTask().getStartTime(),
+                        EMPTY_STRING + taskList.get(index).getNewTask().getEndTime(),
+                        EMPTY_STRING + taskList.get(index).getNewTask().getDeadline(),
                         tagStringSet);
                 command.setData(model);
                 command.execute(0);
@@ -59,16 +60,16 @@ public class RefreshCommand extends Command {
             } catch (IllegalValueException e) {
 
             }
-            taskList.remove(size);
-            size--;
-            if (size == -1) {
+            taskList.remove(index);
+            decrement(index);
+            if (index < 0) {
                 break;
             }
             if (taskList.isEmpty()) {
                 break;
             }
         }
-        if (isUndo == false) {
+        if (!isUndo) {
             history.getUndoList().add(new RollBackCommand(COMMAND_WORD, null, null));
         }
         // @author A0147944U-reused
@@ -76,6 +77,10 @@ public class RefreshCommand extends Command {
         model.autoSortBasedOnCurrentSortPreference();
         // @@author A0147335E
         return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+    private void decrement(int index) {
+        index--;
     }
 
     @Override

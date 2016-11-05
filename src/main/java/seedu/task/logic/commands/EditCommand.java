@@ -1,5 +1,6 @@
 package seedu.task.logic.commands;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +21,6 @@ import seedu.task.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
  * Edits a task from the task manager.
- * @@author A0147335E
  */
 public class EditCommand extends Command {
     public static final String COMMAND_WORD = "edit";
@@ -149,7 +149,7 @@ public class EditCommand extends Command {
         }
         
         if (isUndo == false) {
-            history.getUndoList().add(new RollBackCommand(COMMAND_WORD, toAdd, (Task) currentTask));
+            getUndoList().add(new RollBackCommand(COMMAND_WORD, toAdd, (Task) currentTask));
         }
         // @author A0147944U-reused
         // Sorts updated list of tasks
@@ -157,6 +157,12 @@ public class EditCommand extends Command {
         // @@author A0152958R
         return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, toEdit));
     }
+
+
+    // @@author A0147335E
+	private ArrayList<RollBackCommand> getUndoList() {
+		return history.getUndoList();
+	}
     
     
     
