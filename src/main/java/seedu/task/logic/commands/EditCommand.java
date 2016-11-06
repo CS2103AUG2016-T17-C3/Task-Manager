@@ -40,7 +40,9 @@ public class EditCommand extends Command {
     public static final String EDIT_END_TIME = "end";
     public static final String EDIT_DEADLINE = "due";
     public static final String EDIT_TAG = "tag";
-    public final int targetIndex;
+    public int targetIndex;
+    public final int currentIndex;
+
     //private final Task toEdit;
     private final String toEdit;
     private final String toEditItem;
@@ -61,6 +63,16 @@ public class EditCommand extends Command {
         this.toEdit = editResult;
         this.toEditItem = item;
         this.toEditTags = tags;
+        this.currentIndex = 0;
+        
+    }
+    
+    public EditCommand(int targetIndex, int currentIndex, String item, String editResult,  Set<String> tags) throws IllegalValueException {
+        this.targetIndex = targetIndex;
+        this.toEdit = editResult;
+        this.toEditItem = item;
+        this.toEditTags = tags;
+        this.currentIndex = currentIndex;
         
     }
     
@@ -71,7 +83,8 @@ public class EditCommand extends Command {
     public CommandResult execute(boolean isUndo) {
         assert model != null;
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
-        
+        if (currentIndex != 0)
+            targetIndex = currentIndex;
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
@@ -150,13 +163,15 @@ public class EditCommand extends Command {
             assert false : "The target task cannot be missing";
         }
         
-        if (!isUndo) {
-            getUndoList().add(new RollBackCommand(COMMAND_WORD, toAdd, (Task) currentTask));
-        }
+        
         // @@author A0147944U
         // Sorts updated list of tasks
         model.autoSortBasedOnCurrentSortPreference();
         // @@author A0152958R
+        int currentIndex = model.getTaskManager().getTaskList().indexOf(toAdd);
+        if (!isUndo) {
+            getUndoList().add(new RollBackCommand(COMMAND_WORD, toAdd, (Task) currentTask, currentIndex));
+        }
         return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, toEdit));
     }
 

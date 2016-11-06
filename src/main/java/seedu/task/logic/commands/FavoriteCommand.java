@@ -29,17 +29,25 @@ public class FavoriteCommand extends Command {
 
     public static final String MESSAGE_ALREADY_FAVORITED = "Task has already been favorited!";
 
-    public final int targetIndex;
+    public int targetIndex;
+    public final int currentIndex;
 
     public FavoriteCommand(int targetIndex) {
         this.targetIndex = targetIndex;
+        this.currentIndex = 0;
     }
 
+    public FavoriteCommand(int targetIndex, int currentIndex) {
+        this.targetIndex = targetIndex;
+        this.currentIndex = currentIndex;
+    }
+    
     @Override
     public CommandResult execute(boolean isUndo) {
         assert model != null;
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
-
+        if (currentIndex != 0)
+            targetIndex = currentIndex;
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
@@ -65,13 +73,15 @@ public class FavoriteCommand extends Command {
             return new CommandResult(MESSAGE_ALREADY_FAVORITED);
         }
 
-        if (!isUndo) {
-            getUndoList().add(new RollBackCommand(COMMAND_WORD, taskToFavorite, null));
-        }
+        
         // @@author A0147944U
         // Sorts updated list of tasks
         model.autoSortBasedOnCurrentSortPreference();
         // @@author A0147335E
+        int currentIndex = model.getTaskManager().getTaskList().indexOf(taskToFavorite);
+        if (!isUndo) {
+            getUndoList().add(new RollBackCommand(COMMAND_WORD, taskToFavorite, null, currentIndex));
+        }
         return new CommandResult(String.format(MESSAGE_FAVORITE_TASK_SUCCESS, taskToFavorite.getName()));
     }
 

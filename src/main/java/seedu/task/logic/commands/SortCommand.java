@@ -63,6 +63,7 @@ public class SortCommand extends Command {
         if (invalidKeyword) {
             return new CommandResult(String.format(MESSAGE_FAILURE, keyword));
         }
+        model.getTaskManager().getTaskList();
         model.sortFilteredTaskList(keyword);
         model.saveCurrentSortPreference(keyword);
         if ("Default".equals(keyword)) {
